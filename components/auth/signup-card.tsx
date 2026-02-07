@@ -12,17 +12,15 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 
-export default function LoginCard() {
+export default function SignupCard() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
-        <CardDescription>
-          Enter your email below to login to your account
-        </CardDescription>
+        <CardTitle>Create a new account</CardTitle>
+        <CardDescription>Enter your email below</CardDescription>
         <CardAction>
-          <Link href={'/signup'}>
-            <Button variant="link">Sign Up</Button>
+          <Link href={'/login'}>
+            <Button variant="link">Login</Button>
           </Link>
         </CardAction>
       </CardHeader>
@@ -49,7 +47,7 @@ export default function LoginCard() {
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <Button type="submit" className="w-full">
-          Login
+          Sign Up
         </Button>
       </CardFooter>
     </Card>
