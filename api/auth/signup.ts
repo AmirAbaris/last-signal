@@ -8,5 +8,13 @@ export const signup = async (formData: FormData): Promise<void> => {
 
   const supabase = await createClient()
 
-  await supabase.auth.signUp({ email, password })
+  // TODO: improve error handling
+  const { data } = await supabase.auth.signUp({ email, password })
+
+  if (data.user) {
+    await supabase.from('users').insert({
+      id: data.user.id,
+      email: data.user.email,
+    })
+  }
 }
