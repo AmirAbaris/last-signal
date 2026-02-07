@@ -2,11 +2,11 @@
 
 import { createClient } from '@/lib/supabase/server'
 
-export const signup = async (formData: FormData): Promise<void> => {
+export const login = async (formData: FormData): Promise<void> => {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
   const supabase = await createClient()
 
-  await supabase.auth.signUp({ email, password })
+  await supabase.auth.signInWithPassword({ email, password })
 }
