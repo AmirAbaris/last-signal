@@ -1,3 +1,6 @@
+'use client'
+
+import { signup } from '@/api/auth/signup'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -11,8 +14,12 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
+import { useTransition } from 'react'
+import { Spinner } from '../ui/spinner'
 
 export default function SignupCard() {
+  const [isPending, startTransition] = useTransition()
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -24,12 +31,15 @@ export default function SignupCard() {
           </Link>
         </CardAction>
       </CardHeader>
-      <CardContent>
-        <form>
+      <form
+        action={(formData: FormData) => startTransition(() => signup(formData))}
+      >
+        <CardContent>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
+                name="email"
                 id="email"
                 type="email"
                 placeholder="m@example.com"
@@ -40,16 +50,16 @@ export default function SignupCard() {
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
               </div>
-              <Input id="password" type="password" required />
+              <Input name="password" id="password" type="password" required />
             </div>
           </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
-          Sign Up
-        </Button>
-      </CardFooter>
+        </CardContent>
+        <CardFooter className="flex-col gap-2 mt-6">
+          <Button disabled={isPending} type="submit" className="w-full">
+            {isPending ? <Spinner /> : 'Sign up'}
+          </Button>
+        </CardFooter>
+      </form>
     </Card>
   )
 }
