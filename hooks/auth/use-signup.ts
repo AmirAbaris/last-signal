@@ -3,12 +3,15 @@
 import { signup } from '@/api/auth/signup'
 import { signupSchema, SignupType } from '@/schemas/auth/signup'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 export const useSignup = () => {
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
+
   const form = useForm<SignupType>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -27,7 +30,7 @@ export const useSignup = () => {
       }
 
       toast.success('sign up successful :D')
-      // TODO: add redirect route
+      router.push('/')
     })
   }
 

@@ -4,12 +4,14 @@
 import { login } from '@/api/auth/login'
 import { loginSchema, LoginType } from '@/schemas/auth/login'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 export const useLogin = () => {
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
 
   const form = useForm<LoginType>({
     resolver: zodResolver(loginSchema),
@@ -29,7 +31,7 @@ export const useLogin = () => {
       }
 
       toast.success('welcome bro')
-      // TODO: redirect user after login
+      router.push('/')
     })
   }
 
