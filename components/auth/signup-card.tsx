@@ -2,6 +2,9 @@
 
 import { signup } from '@/api/auth/signup'
 import { Button } from '@/components/ui/button'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Controller, useForm } from 'react-hook-form'
+
 import {
   Card,
   CardAction,
@@ -12,13 +15,19 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import Link from 'next/link'
-import { useTransition } from 'react'
 import { Spinner } from '../ui/spinner'
+import z from 'zod'
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field'
+import { useSignup } from '@/hooks/auth/use-signup'
 
 export default function SignupCard() {
-  const [isPending, startTransition] = useTransition()
+  const { isPending, form, submitSignupForm } = useSignup()
 
   return (
     <Card className="w-full max-w-sm">
@@ -31,29 +40,52 @@ export default function SignupCard() {
           </Link>
         </CardAction>
       </CardHeader>
-      <form
-        action={(formData: FormData) => startTransition(() => signup(formData))}
-      >
+
+      <form onSubmit={form.handleSubmit(submitSignupForm)}>
         <CardContent>
           <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
+            <FieldGroup>
+              <Controller
                 name="email"
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>Email</FieldLabel>
+                    <Input
+                      {...field}
+                      placeholder="you@example.com"
+                      type="email"
+                    />
+                    {fieldState.error && (
+                      <FieldError>{fieldState.error.message}</FieldError>
+                    )}
+                  </Field>
+                )}
               />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-              </div>
-              <Input name="password" id="password" type="password" required />
-            </div>
+            </FieldGroup>
+
+            <FieldGroup>
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field>
+                    <FieldLabel>Password</FieldLabel>
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="Enter password"
+                    />
+                    {fieldState.error && (
+                      <FieldError>{fieldState.error.message}</FieldError>
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
           </div>
         </CardContent>
+
         <CardFooter className="flex-col gap-2 mt-6">
           <Button disabled={isPending} type="submit" className="w-full">
             {isPending ? <Spinner /> : 'Sign up'}
