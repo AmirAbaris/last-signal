@@ -15,7 +15,7 @@ export type ApiResponse<T = unknown> = {
 export type PaginatedResponse<T> = ApiResponse<T[]> & {
   pagination?: {
     page: number
-    limit: number
+    pageSize: number
     total: number
     totalPages: number
     hasNext: boolean
