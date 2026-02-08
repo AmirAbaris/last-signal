@@ -1,5 +1,4 @@
-'use server'
-
+import 'server-only'
 import { createClient } from '@/lib/supabase/server'
 import { User } from '@/types/dashboard/user'
 import { PaginatedResponse } from '@/types/shared/api'

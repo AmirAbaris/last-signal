@@ -1,5 +1,4 @@
-'use server'
-
+import 'server-only'
 import { createClient } from '@/lib/supabase/server'
 import { ApiResponse } from '@/types/shared/api'
 import { User } from '@supabase/supabase-js'
