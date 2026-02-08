@@ -1,5 +1,13 @@
-import { ReactNode } from 'react'
+import DashboardNavbar from '@/components/dashboard/dashboard-navbar'
+import { ReactNode, Suspense } from 'react'
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  return <>{children}</>
+  return (
+    <>
+      <Suspense>
+        <DashboardNavbar />
+      </Suspense>
+      {children}
+    </>
+  )
 }
