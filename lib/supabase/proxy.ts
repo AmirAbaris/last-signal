@@ -41,9 +41,9 @@ export async function updateSession(request: NextRequest) {
 
   const user = data?.claims
 
-  // TODO: improve base on our custom need
-  if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
-    // no user, potentially respond by redirecting the user to the login page
+  const pathname = request.nextUrl.pathname
+
+  if (!user && pathname === '/') {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
